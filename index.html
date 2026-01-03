@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ارائه پیشرفته - رگرسیون کوانتایل</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- 🌟 Background Layer with Particles -->
+    <div id="bg-layer">
+        <div class="grid-floor"></div>
+        <canvas id="particle-canvas"></canvas>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="aurora-effect"></div>
+    </div>
+
+    <!-- 📊 Header with Logo -->
+    <header id="app-header">
+        <div class="brand-container">
+            <div class="logo-wrapper">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png" 
+                     alt="University Logo" 
+                     class="uni-logo"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="fallback-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+            <div class="brand-text">
+                <h1 class="uni-name">دانشگاه بیرجند</h1>
+                <p class="dept-name">گروه آمار و علوم داده</p>
+            </div>
+        </div>
+        <div class="header-tools">
+            <div id="clock-display">00:00:00</div>
+            <button class="header-btn" id="theme-toggle" title="تغییر تم">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="header-btn" id="fullscreen-btn" title="تمام صفحه">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 🎭 Main Stage -->
+    <main id="stage-viewport">
+        <div class="slide-transition-wrapper">
+            <div id="slide-container">
+                <!-- Slides will be injected by JavaScript -->
+            </div>
+            
+            <!-- Progress Ring -->
+            <svg class="progress-ring" width="120" height="120">
+                <circle class="progress-ring-circle" stroke="var(--primary)" 
+                        stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
+            </svg>
+        </div>
+        
+        <!-- Slide Number Indicator -->
+        <div class="slide-number-indicator">
+            <span id="current-slide-num">1</span>
+        </div>
+    </main>
+
+    <!-- 🎮 Control Bar -->
+    <footer id="control-bar">
+        <div class="bar-glass">
+            <!-- Navigation -->
+            <div class="nav-controls">
+                <button class="ctrl-btn" id="btn-first" title="اولین اسلاید">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-prev" title="قبلی">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="page-indicator">
+                    <span id="page-current">1</span>
+                    <span class="divider">/</span>
+                    <span id="page-total">33</span>
+                </div>
+                <button class="ctrl-btn" id="btn-next" title="بعدی">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-last" title="آخرین اسلاید">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+
+            <div class="separator"></div>
+
+            <!-- Tools -->
+            <div class="tool-controls">
+                <button class="ctrl-btn" id="btn-draw" title="حالت نقاشی">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-laser" title="لیزر پوینتر">
+                    <i class="fas fa-bullseye"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-timer" title="تایمر">
+                    <i class="fas fa-clock"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-notes" title="یادداشت">
+                    <i class="fas fa-sticky-note"></i>
+                </button>
+            </div>
+
+            <div class="separator"></div>
+
+            <!-- System -->
+            <div class="system-controls">
+                <button class="ctrl-btn" id="btn-palette" title="پالت رنگ">
+                    <i class="fas fa-palette"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-reset" title="پاک کردن">
+                    <i class="fas fa-eraser"></i>
+                </button>
+                <button class="ctrl-btn" id="btn-screenshot" title="اسکرین شات">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Color Palette Popover -->
+        <div class="palette-popover" id="palette-popover">
+            <div class="color-dot" style="--c: #ef4444"></div>
+            <div class="color-dot" style="--c: #f59e0b"></div>
+            <div class="color-dot" style="--c: #10b981"></div>
+            <div class="color-dot" style="--c: #3b82f6"></div>
+            <div class="color-dot" style="--c: #8b5cf6"></div>
+            <div class="color-dot" style="--c: #ec4899"></div>
+            <div class="color-dot" style="--c: #ffffff"></div>
+        </div>
+    </footer>
+
+    <!-- 🕐 Timer Widget -->
+    <div class="floating-widget" id="timer-widget">
+        <div class="widget-header">
+            <span class="drag-handle"><i class="fas fa-grip-vertical"></i> تایمر</span>
+            <button class="btn-close-widget"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="timer-body">
+            <div id="timer-counter">00:00</div>
+            <div class="timer-actions">
+                <button id="timer-play"><i class="fas fa-play"></i></button>
+                <button id="timer-pause"><i class="fas fa-pause"></i></button>
+                <button id="timer-reset"><i class="fas fa-redo"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📝 Notes Panel -->
+    <div class="floating-widget notes-panel" id="notes-panel">
+        <div class="widget-header">
+            <span class="drag-handle"><i class="fas fa-grip-vertical"></i> یادداشت</span>
+            <button class="btn-close-widget"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="notes-body">
+            <textarea id="notes-area" placeholder="یادداشت‌های خود را اینجا بنویسید..."></textarea>
+            <button class="save-notes-btn"><i class="fas fa-save"></i> ذخیره</button>
+        </div>
+    </div>
+
+    <!-- 🖼️ Drawing Canvas -->
+    <canvas id="drawing-canvas"></canvas>
+    
+    <!-- 🔴 Laser Pointer -->
+    <div id="laser-pointer"></div>
+
+    <!-- 🎉 Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">عملیات موفق</span>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader-container">
+            <div class="loader"></div>
+            <p class="loading-text">در حال بارگذاری اسلایدها...</p>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div class="modal-caption" id="modal-caption"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
