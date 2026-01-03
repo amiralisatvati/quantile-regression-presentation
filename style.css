@@ -1,0 +1,11 @@
+/* See code_file:5 for full content */
+:root {
+    --bg-core: #020617;
+    --primary: #38bdf8;
+}
+
+body {
+    background: var(--bg-core);
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
+}
